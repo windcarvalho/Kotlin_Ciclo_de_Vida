@@ -2,6 +2,7 @@ package ufc.smd.kotlin_ciclo_de_vida
 
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -14,14 +15,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val tv = findViewById<TextView>(R.id.tvValor)
-
+        if (savedInstanceState != null) {
+            i=savedInstanceState.getInt("valor")
+           tv.text="Valor = "+ i
+        }
         val aButton:FloatingActionButton = findViewById<View>(R.id.acBT) as FloatingActionButton
         aButton.setOnClickListener(View.OnClickListener {
             //código do gerenciamento
             i=i+1
-            tv.text=" Valor = "+ i
+            tv.text="Valor = "+ i
         })
 
     }
@@ -45,6 +48,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy(){
         super.onDestroy()
         Log.d("PDM22","No onResume")
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("valor",this.i)
+        super.onSaveInstanceState(outState)
     }
 
 }
